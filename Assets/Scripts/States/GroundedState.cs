@@ -5,7 +5,7 @@ using UnityEngine;
 public class GroundedState : IState
 {
     private PlayerController player;
-    public float moveSpeed = 20f;
+    public float moveSpeed = 30f;
     private float rotationSpeed = 700f;
 
     public GroundedState(PlayerController player)

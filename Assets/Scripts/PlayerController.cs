@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
 
     public Transform GetHandGrabRight()
     {
-        return handGrabL;
+        return handGrabR;
     }
 
 

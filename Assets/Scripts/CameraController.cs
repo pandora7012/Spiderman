@@ -52,13 +52,9 @@ public class CameraController : MonoBehaviour
     public void MotionBlurEffect()
     {
         float playerSpeed = player.GetRigidbody().velocity.magnitude;
-        
-        Debug.Log(playerSpeed);
-
-        if (playerSpeed > 10)
+        if (playerSpeed > 45)
         {
             motionBlur.active = true;
-            Debug.Log("AAAA");
             motionBlur.shutterAngle.value = Mathf.Lerp(0, 270, (playerSpeed - 10) / 10);
         }
         else
