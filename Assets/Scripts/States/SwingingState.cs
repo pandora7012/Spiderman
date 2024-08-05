@@ -16,7 +16,7 @@ public class SwingingState : IState
     public float maxSwingSpeed = 40;
     public float maxAngularVelocity = 30;
     public float releaseForce = 10;
-
+    private int animRandom = 1;
 
     public SwingingState(PlayerController playerController)
     {
@@ -25,14 +25,19 @@ public class SwingingState : IState
 
     public void StateEnter()
     {
+        animRandom = Random.Range(1, 10);
+        animRandom = 9; 
         swingPoint = player.transform.position + player.transform.up * swingRadius +
                      player.transform.forward * swingRadius / 4;
         float moveHorizontal = Input.GetAxis(Constants.Input.Horizontal);
 
+
         var vector = player.transform.right * -moveHorizontal * swingRadius / 1.5f;
         swingPoint += vector;
 
+        
         player.GetRigidbody().AddForce(player.transform.forward * 20, ForceMode.Impulse);
+        player.GetAnimator().SetInt(Constants.Animation.Parameters.RandomSlideAnimation, animRandom);
         player.GetAnimator().SetBool(Constants.Animation.Parameters.IsSwinging, true);
 
         var springJoint = player.GetSpringJoint();
@@ -48,6 +53,17 @@ public class SwingingState : IState
         springJoint.minDistance = swingRadius;
     }
 
+
+    public Transform GetHandRopeAsAnimation()
+    {
+        if (animRandom == 9)
+        {
+            return player.GetHandGrabRight();
+        }
+
+        return player.GetHandGrabLeft();
+    }
+    
     public void HandleInput()
     {
         HandleMovement();
@@ -140,6 +156,6 @@ public class SwingingState : IState
 
     public void UpdateLineRenderer()
     {
-        player.SetupLineRenderer(true, player.GetJointAnchor(), player.GetHandGrabLeft());
+        player.SetupLineRenderer(true, player.GetJointAnchor(), GetHandRopeAsAnimation());
     }
 }
